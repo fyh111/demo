@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>demo</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .container{
+            height: 400px;
+            width: 500px;
+            position: absolute;
+            top: 50%;left: 50%;
+            transform: translate(-50%,-50%);
+            background-color: rgb(235, 235, 235);
+            border-radius: 10px;
+        }
+        span{
+            display: inline-block;
+            width: 150px;
+        }
+        span.right{
+            margin-left: 100px;
+        }
+        input:focus{
+            outline: none;
+        }
+        input.left{
+            margin-left: 30px;
+        }
+        input.right{
+            margin-left: 70px;
+        }
+        input[type="radio"]{
+            margin-left: 10px;
+        }
+        input[type="radio"]:first-of-type{
+            margin-left: 30px;
+        }
+        span.run{
+            height: 30px;
+            width: 100px;
+            position: relative;
+            text-align: center;
+            line-height: 30px;
+            margin-top: 30px;
+            margin-left: 310px;
+            cursor: pointer;
+            background-color: rgb(255, 255, 255);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <br /><span>请选择类型</span><br />
+        <input type="radio" class="type" name="type" id="webgame" value="webgame">
+        <label for="webgame">webgame</label>
+        <input type="radio" class="type" name="type" id="h5game" value="h5game">
+        <label for="h5game">h5game</label>
+        <input type="radio" class="type" name="type" id="clientgame" value="clientgame">
+        <label for="clientgame">clientgame</label>
+        <input type="radio" class="type" name="type" id="appgame" value="appgame">
+        <label for="appgame">appgame</label>
+        <input type="radio" class="type" name="type" id="url" value="url">
+        <label for="url">url</label><br />
+        <br /><br /><span class="left">请输入游戏gkey</span><span class="right">请输入游戏appid</span><br />
+        <input type="text" class="gkey left" name="gkey">
+        <input type="text" class="appid right" name="appid"><br />
+        <br /><br /><span class="left">请输入游戏name</span><span class="right">请输入游戏openUrl</span><br />
+        <input type="text" class="name left" name="name">
+        <input type="text" class="openUrl right" name="openUrl"><br />
+        <br /><br /><span class="left">请输入游戏saveUrl</span><br />
+        <input type="text" class="saveUrl left" name="saveUrl"><br />
+        <span class="run">run</span>
+    </div>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script>
+        $("body").on("click",".run",function(){
+            var type = $("input[type='radio']:checked").val();
+            var gkey = $(".gkey").val();
+            var appid = $(".appid").val();
+            var name = $(".name").val();
+            var openUrl = $(".openUrl").val();
+            var saveUrl = $(".saveUrl").val();
+            switch(type){
+                case "webgame":
+                case "h5game":
+                    openWebOrH5Game(type, gkey, saveUrl, openUrl, name);break;
+                case "clientgame":
+                    openClientGame(type, appid);break;
+                case "appgame":
+                    openAppGame(type, appid);break;
+                case "url":
+                    openUrlGame(type, saveUrl);break;
+                default:
+                    alert("类型参数错误");break;
+            }
+        })
+        function openWebOrH5Game(type, gkey, saveUrl, openUrl, name){
+            if(!gkey || !saveUrl || !openUrl || !name){
+                alert("参数错误!");
+                return false;
+            }
+            var js = {
+                type: type,
+                gkey: gkey,
+                saveUrl: saveUrl,
+                openUrl: openUrl,
+                name: name
+            };
+            try {
+                window.external.openGame(JSON.stringify(js));
+            } catch (error) {
+                console.log(js);
+            }
+        }
+        function openClientGame(type, appid){
+            if(!appid){
+                alert("appid参数错误!");
+                return false;
+            }
+            var js = {
+                type: type,
+                appid: appid
+            };
+            try {
+                window.external.openGame(JSON.stringify(js));
+            } catch (error) {
+                console.log(js);
+            }
+        }
+        function openAppGame(type, appid){
+            if(!appid){
+                alert("appid参数错误!");
+                return false;
+            }
+            var js = {
+                type,
+                appid
+            };
+            try {
+                window.external.openGame(JSON.stringify(js));
+            } catch (error) {
+                console.log(js);
+            }
+        }
+        function openUrlGame(type, saveUrl){
+            if(!saveUrl){
+                alert("saveUrl参数错误!");
+                return false;
+            }
+            var js ={
+                type,
+                saveUrl
+            };
+            try {
+                window.external.openGame(JSON.stringify(js));
+            } catch (error) {
+                console.log(js);
+            }
+        }
+    </script>
+</body>
+</html>
