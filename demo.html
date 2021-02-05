@@ -41,7 +41,7 @@
         input[type="radio"]:first-of-type{
             margin-left: 30px;
         }
-        span.run{
+        span#run{
             height: 30px;
             width: 100px;
             position: relative;
@@ -58,15 +58,15 @@
 <body>
     <div class="container">
         <br /><span>请选择类型</span><br />
-        <input type="radio" class="type" name="type" id="webgame" value="webgame">
+        <input type="radio" class="type" name="type" id="webgame" value="webgame" onclick="getType(this)">
         <label for="webgame">webgame</label>
-        <input type="radio" class="type" name="type" id="h5game" value="h5game">
+        <input type="radio" class="type" name="type" id="h5game" value="h5game" onclick="getType(this)">
         <label for="h5game">h5game</label>
-        <input type="radio" class="type" name="type" id="clientgame" value="clientgame">
+        <input type="radio" class="type" name="type" id="clientgame" value="clientgame" onclick="getType(this)">
         <label for="clientgame">clientgame</label>
-        <input type="radio" class="type" name="type" id="appgame" value="appgame">
+        <input type="radio" class="type" name="type" id="appgame" value="appgame" onclick="getType(this)">
         <label for="appgame">appgame</label>
-        <input type="radio" class="type" name="type" id="url" value="url">
+        <input type="radio" class="type" name="type" id="url" value="url" onclick="getType(this)">
         <label for="url">url</label><br />
         <br /><br /><span class="left">请输入游戏gkey</span><span class="right">请输入游戏appid</span><br />
         <input type="text" class="gkey left" name="gkey">
@@ -76,17 +76,19 @@
         <input type="text" class="openUrl right" name="openUrl"><br />
         <br /><br /><span class="left">请输入游戏saveUrl</span><br />
         <input type="text" class="saveUrl left" name="saveUrl"><br />
-        <span class="run">run</span>
+        <span id="run">run</span>
     </div>
-    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
     <script>
-        $("body").on("click",".run",function(){
-            var type = $("input[type='radio']:checked").val();
-            var gkey = $(".gkey").val();
-            var appid = $(".appid").val();
-            var name = $(".name").val();
-            var openUrl = $(".openUrl").val();
-            var saveUrl = $(".saveUrl").val();
+        var type = '';
+        function getType(obj){
+            type = obj.value
+        }
+        document.getElementById("run").onclick=function(){
+            var gkey = document.getElementsByClassName("gkey")[0].value;
+            var appid = document.getElementsByClassName("appid")[0].value;
+            var name = document.getElementsByClassName("name")[0].value;
+            var openUrl = document.getElementsByClassName("openUrl")[0].value;
+            var saveUrl = document.getElementsByClassName("saveUrl")[0].value;
             switch(type){
                 case "webgame":
                 case "h5game":
@@ -100,7 +102,7 @@
                 default:
                     alert("类型参数错误!");break;
             }
-        })
+        }
         function openWebOrH5Game(type, gkey, saveUrl, openUrl, name){
             if(!gkey || !saveUrl || !openUrl || !name){
                 alert("参数错误!");
